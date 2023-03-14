@@ -28,7 +28,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   session: {
-    strategy: 'jwt'
+    strategy: 'jwt',
   },
   events: {
     async signIn(message) {
@@ -42,7 +42,7 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async session({ token, session }) {
-      if (token) { 
+      if (token) {
         session.user.id = token.id
         session.user.name = token.name
         session.user.email = token.email
@@ -52,7 +52,6 @@ export const authOptions: NextAuthOptions = {
       return session
     },
     async jwt({ token, user }) {
-
       return token
     },
   },
