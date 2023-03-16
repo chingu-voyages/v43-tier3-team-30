@@ -45,36 +45,6 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  ApiKey        ApiKey[]
-  apiKeyId      String?   @db.ObjectId
-}
-
-model ApiKey {
-  id      String  @id @default(auto()) @map("_id") @db.ObjectId
-  key     String  @unique
-  enabled Boolean @default(true)
-  User    User    @relation(fields: [userId], references: [id])
-  userId  String  @db.ObjectId
-
-  requests ApiRequest[]
-
-  @@unique([userId, key, enabled])
-}
-
-model ApiRequest {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  timestamp DateTime @default(now())
-  method    String
-  path      String
-  status    Int
-  duration  Int
-
-  usedApiKey String
-
-  ApiKey   ApiKey @relation(fields: [apiKeyId], references: [id])
-  apiKeyId String @db.ObjectId
-
-  @@index([apiKeyId, timestamp])
 }
 
 model VerificationToken {
