@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.heading-fade-line {
+  display: inline-block;
+  background-image: linear-gradient(
+    117deg,
+    rgba(216, 213, 209, 0.6),
+    #f1f0ee 30%,
+    #f1f0ee 70%,
+    rgba(216, 213, 209, 0.6)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

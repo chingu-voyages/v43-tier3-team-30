@@ -1,12 +1,12 @@
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import CredentialsProvider from "next-auth/providers/credentials";
 import db from '../../../lib/prismadb'
 
-const getGoogleCredentials = () => {
+function getGoogleCredentials(): { clientId: string; clientSecret: string } {
   const clientId = process.env.GOOGLE_CLIENT_ID
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET
-
   if (!clientId || clientId.length === 0) {
     throw new Error('No clientId for google provider.')
   }
@@ -20,25 +20,41 @@ const getGoogleCredentials = () => {
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
+  session: {
+    strategy: 'jwt',
+  },
   providers: [
     GoogleProvider({
       clientId: getGoogleCredentials().clientId,
       clientSecret: getGoogleCredentials().clientSecret,
     }),
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        email: { label: 'Email', type: 'email', placeholder: 'Email Address' },
+        password: { label: 'Password', type: 'password' },
+      },
+      async authorize(credentials, req) {
+        // Add logic here to look up the user from the credentials supplied
+        const { email, password } = credentials as {
+          email: string
+          password: string
+        }
+        const dbUser = await db.user.findFirst({
+          where: {
+            email: email,
+          },
+        })
+
+        const user = { id: '1', name: 'J Smith', email: 'jsmith@example.com' }
+        if (dbUser) {
+          return dbUser
+        } else {
+          return null
+        }
+      },
+    }),
   ],
-  session: {
-    strategy: 'jwt',
-  },
-  events: {
-    async signIn(message) {
-      console.log('Signed in with: ')
-      console.log(message)
-    },
-    async signOut(message) {
-      console.log('Signed out: ')
-      console.log(message)
-    },
-  },
   callbacks: {
     async session({ token, session }) {
       if (token) {
@@ -68,6 +84,9 @@ export const authOptions: NextAuthOptions = {
         email: dbUser.email,
         picture: dbUser.image,
       }
+    },
+    redirect() {
+      return '/'
     },
   },
 }
