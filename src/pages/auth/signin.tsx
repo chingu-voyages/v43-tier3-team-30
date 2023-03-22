@@ -1,21 +1,30 @@
 import { Button } from '@/components/Button'
 import Input from '@/components/Input'
-import { NextPage } from 'next'
+import { GetServerSidePropsContext, InferGetServerSidePropsType, NextPage } from 'next'
+import { getServerSession } from 'next-auth'
+import { getCsrfToken, getProviders, signIn, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { AiOutlineGoogle } from 'react-icons/ai'
+import { authOptions } from '../api/auth/[...nextauth]'
 
 type Values = {
   email: string
   password: string
 }
 
-const SignIn: NextPage = () => {
+export default function SignIn({
+  providers,
+  csrfToken,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+
   const [values, setValues] = useState<Values>({
     email: '',
     password: '',
   })
+
+  const { data: session, status } = useSession()
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [event.target.name]: event.target.value })
@@ -32,9 +41,8 @@ const SignIn: NextPage = () => {
         <title>Sign In</title>
       </Head>
       <form
-        onSubmit={(e) => {
-          handleSubmit(e)
-        }}
+        method="post"
+        action="/api/auth/callback/credentials"
         className="flex border-[1px] border-gray-400 border-solid rounded-2xl max-h-[600px] bg-[#16181A] flex-1 flex-col items-center py-12 px-8 md:px-20 text-center"
       >
         <header className="space-y-8 mb-6 flex flex-col items-center">
@@ -49,28 +57,29 @@ const SignIn: NextPage = () => {
           </div>
         </header>
         <main className="w-full">
+          <Input name="csrfToken" type="hidden" defaultValue={csrfToken} />
           <Input
             id="email"
             type="email"
             name="email"
             required
             onChange={handleChange}
-            placeholder="Email Address"
+            placeholder='Email Address'
             className="mb-4"
           />
           <Input
             id="password"
             type="password"
             name="password"
-            required
             onChange={handleChange}
+            required
             placeholder="Password"
             className=""
           />
         </main>
         <footer className="w-full">
           <Button
-            type="submit"
+            onClick={() => signIn('credentials', values)}
             className="flex mt-6 justify-center items-center w-full text-center"
           >
             Sign Up
@@ -82,14 +91,38 @@ const SignIn: NextPage = () => {
             </span>
             <hr className="border mt-6 border-gray-700 h-[1px] w-full" />
           </div>
-          <Button className="flex mt-6 justify-center items-center w-full text-center">
-            <AiOutlineGoogle className="mr-2 h-4 w-4" />
-            Sign In with Google
-          </Button>
+          {Object.values(providers)
+            .filter(provider => provider.name != 'Credentials')
+            .map((provider) => (
+              <div key={provider.name}>
+                <Button
+                  className="flex mt-6 justify-center items-center w-full text-center"
+                  onClick={() => signIn(provider.id)}
+                >
+                  <AiOutlineGoogle className="mr-2 h-4 w-4" />
+                  Sign In with {provider.name}
+                </Button>
+              </div>
+            ))}
         </footer>
       </form>
     </div>
   )
 }
 
-export default SignIn
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerSession(context.req, context.res, authOptions)
+
+  if (session) {
+    return { redirect: { destination: '/' } }
+  }
+
+  const providers = await getProviders()
+
+  return {
+    props: {
+      providers: providers ?? [],
+      csrfToken: await getCsrfToken(context),
+    },
+  }
+}

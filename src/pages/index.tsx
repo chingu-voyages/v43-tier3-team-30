@@ -4,6 +4,8 @@ import { signOut, useSession } from 'next-auth/react'
 const Home: NextPage = () => {
   const { data: session, status } = useSession()
 
+  console.log(status === 'authenticated' && session.user)
+
   if (status === 'authenticated') {
     return (
       <>
@@ -13,7 +15,7 @@ const Home: NextPage = () => {
     )
   }
 
-  return <a href="/api/auth/signin">Sign in</a>
+  return <a href="/auth/signin">Sign in</a>
 }
 
 export default Home
