@@ -53,7 +53,7 @@ export const authOptions: NextAuthOptions = {
 
         const authentication = await bcrypt.compare(
           password,
-          dbUser.hashedPassword
+          dbUser.hashedPassword,
         )
 
         if (!authentication) return null

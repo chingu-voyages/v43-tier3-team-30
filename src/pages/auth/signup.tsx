@@ -32,15 +32,15 @@ const SignUp: NextPage = () => {
     console.log(values)
 
     try {
-    const user = await axios.post('/api/register', values)
+      const user = await axios.post('/api/register', values)
 
-    console.log(user)
-    if (user) {
-      router.push('/auth/signin')
-    } 
-} catch (error) {
-    console.log(error)
-}
+      console.log(user)
+      if (user) {
+        router.push('/auth/signin')
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -108,7 +108,10 @@ const SignUp: NextPage = () => {
             </span>
             <hr className="border mt-6 border-gray-700 h-[1px] w-full" />
           </div>
-          <Button className="mt-6 justify-center items-center w-full text-center" onClick={() => router.push('/auth/signin')}>
+          <Button
+            className="mt-6 justify-center items-center w-full text-center"
+            onClick={() => router.push('/auth/signin')}
+          >
             <AiOutlineMail className="mr-2 h-4 w-4" />
             Sign In with Email
           </Button>
