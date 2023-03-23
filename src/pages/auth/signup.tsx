@@ -1,10 +1,12 @@
 import { Button } from '@/components/Button'
 import Input from '@/components/Input'
+import axios from 'axios'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import { AiOutlineGoogle } from 'react-icons/ai'
+import { AiOutlineGoogle, AiOutlineMail } from 'react-icons/ai'
 
 type Values = {
   name: string
@@ -13,6 +15,8 @@ type Values = {
 }
 
 const SignUp: NextPage = () => {
+  const router = useRouter()
+
   const [values, setValues] = useState<Values>({
     name: '',
     email: '',
@@ -23,15 +27,26 @@ const SignUp: NextPage = () => {
     setValues({ ...values, [event.target.name]: event.target.value })
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     console.log(values)
+
+    try {
+    const user = await axios.post('/api/register', values)
+
+    console.log(user)
+    if (user) {
+      router.push('/auth/signin')
+    } 
+} catch (error) {
+    console.log(error)
+}
   }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2 bg-[#18191b] bg-[url('/noise.png')]">
       <Head>
-        <title>Sign In</title>
+        <title>Sign Up</title>
       </Head>
       <form
         onSubmit={(e) => {
@@ -93,6 +108,10 @@ const SignUp: NextPage = () => {
             </span>
             <hr className="border mt-6 border-gray-700 h-[1px] w-full" />
           </div>
+          <Button className="mt-6 justify-center items-center w-full text-center" onClick={() => router.push('/auth/signin')}>
+            <AiOutlineMail className="mr-2 h-4 w-4" />
+            Sign In with Email
+          </Button>
           <Button className="mt-6 justify-center items-center w-full text-center">
             <AiOutlineGoogle className="mr-2 h-4 w-4" />
             Sign In with Google

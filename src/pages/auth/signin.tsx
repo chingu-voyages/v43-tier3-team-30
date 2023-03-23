@@ -1,12 +1,17 @@
 import { Button } from '@/components/Button'
 import Input from '@/components/Input'
-import { GetServerSidePropsContext, InferGetServerSidePropsType, NextPage } from 'next'
+import {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+  NextPage,
+} from 'next'
 import { getServerSession } from 'next-auth'
-import { getCsrfToken, getProviders, signIn, useSession } from 'next-auth/react'
+import { getCsrfToken, getProviders, signIn } from 'next-auth/react'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import { AiOutlineGoogle } from 'react-icons/ai'
+import { AiOutlineGoogle, AiOutlineMail } from 'react-icons/ai'
 import { authOptions } from '../api/auth/[...nextauth]'
 
 type Values = {
@@ -18,13 +23,12 @@ export default function SignIn({
   providers,
   csrfToken,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const router = useRouter()
 
   const [values, setValues] = useState<Values>({
     email: '',
     password: '',
   })
-
-  const { data: session, status } = useSession()
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [event.target.name]: event.target.value })
@@ -64,7 +68,7 @@ export default function SignIn({
             name="email"
             required
             onChange={handleChange}
-            placeholder='Email Address'
+            placeholder="Email Address"
             className="mb-4"
           />
           <Input
@@ -82,7 +86,7 @@ export default function SignIn({
             onClick={() => signIn('credentials', values)}
             className="flex mt-6 justify-center items-center w-full text-center"
           >
-            Sign Up
+            Sign In
           </Button>
           <div className="flex w-full">
             <hr className="border mt-6 bg-gray-800 border-gray-700 h-[1px] w-full" />
@@ -92,7 +96,7 @@ export default function SignIn({
             <hr className="border mt-6 border-gray-700 h-[1px] w-full" />
           </div>
           {Object.values(providers)
-            .filter(provider => provider.name != 'Credentials')
+            .filter((provider) => provider.name != 'Credentials')
             .map((provider) => (
               <div key={provider.name}>
                 <Button
@@ -104,6 +108,15 @@ export default function SignIn({
                 </Button>
               </div>
             ))}
+          <Button
+            className="flex mt-6 justify-center items-center w-full text-center"
+            onClick={() => {
+              router.push('/auth/signup')
+            }}
+          >
+            <AiOutlineMail className="mr-2 h-4 w-4" />
+            Sign Up with Email
+          </Button>
         </footer>
       </form>
     </div>
