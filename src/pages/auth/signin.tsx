@@ -1,4 +1,4 @@
-import { Button } from '@/components/Button'
+import { Button, buttonVariants } from '@/components/Button'
 import Input from '@/components/Input'
 import {
   GetServerSidePropsContext,
@@ -9,8 +9,8 @@ import { getServerSession } from 'next-auth'
 import { getCsrfToken, getProviders, signIn } from 'next-auth/react'
 import Head from 'next/head'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import Link from 'next/link'
+import React, { useCallback, useState } from 'react'
 import { AiOutlineGoogle, AiOutlineMail } from 'react-icons/ai'
 import { authOptions } from '../api/auth/[...nextauth]'
 
@@ -23,8 +23,8 @@ export default function SignIn({
   providers,
   csrfToken,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const router = useRouter()
 
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [values, setValues] = useState<Values>({
     email: '',
     password: '',
@@ -34,10 +34,20 @@ export default function SignIn({
     setValues({ ...values, [event.target.name]: event.target.value })
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    console.log(values)
-  }
+  const handleSubmit = useCallback(async () => {
+    try {
+      setIsLoading(true)
+
+      await signIn('credentials', {
+        email: values.email,
+        password: values.password,
+      })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [values])
 
   return (
     <div className="flex min-h-screen flex-col bg-[url('/noise.png')] items-center justify-center py-2 bg-[#18191b]">
@@ -56,7 +66,17 @@ export default function SignIn({
               👋<span className="heading-fade-line">Welcome Back</span>
             </h2>
             <p className="text-xs text-gray-400">
-              Sign In using Google or Email
+              Don't have an account?
+              <Link
+                className={buttonVariants({
+                  variant: 'link',
+                  size: 'sm',
+                  className: 'w-fit text-xs px-1',
+                })}
+                href={'/auth/signup'}
+              >
+                Sign Up
+              </Link>
             </p>
           </div>
         </header>
@@ -70,6 +90,7 @@ export default function SignIn({
             onChange={handleChange}
             placeholder="Email Address"
             className="mb-4"
+            disabled={isLoading}
           />
           <Input
             id="password"
@@ -79,11 +100,12 @@ export default function SignIn({
             required
             placeholder="Password"
             className=""
+            disabled={isLoading}
           />
         </main>
         <footer className="w-full">
           <Button
-            onClick={() => signIn('credentials', values)}
+            onClick={handleSubmit}
             className="flex mt-6 justify-center items-center w-full text-center"
           >
             Sign In
@@ -104,19 +126,10 @@ export default function SignIn({
                   onClick={() => signIn(provider.id)}
                 >
                   <AiOutlineGoogle className="mr-2 h-4 w-4" />
-                  Sign In with {provider.name}
+                  Continue with {provider.name}
                 </Button>
               </div>
             ))}
-          <Button
-            className="flex mt-6 justify-center items-center w-full text-center"
-            onClick={() => {
-              router.push('/auth/signup')
-            }}
-          >
-            <AiOutlineMail className="mr-2 h-4 w-4" />
-            Sign Up with Email
-          </Button>
         </footer>
       </form>
     </div>
