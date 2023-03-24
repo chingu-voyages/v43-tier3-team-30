@@ -1,5 +1,6 @@
 import { Button, buttonVariants } from '@/components/Button'
 import Input from '@/components/Input'
+import { useToast } from '@/hooks/useToast'
 import axios from 'axios'
 import { NextPage } from 'next'
 import { signIn } from 'next-auth/react'
@@ -18,6 +19,8 @@ type Values = {
 
 const SignUp: NextPage = () => {
   const router = useRouter()
+
+  const { toast } = useToast()
   
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [values, setValues] = useState<Values>({
@@ -40,13 +43,21 @@ const SignUp: NextPage = () => {
 
       setIsLoading(false)
 
+      toast({
+        variant: 'success',
+        description: 'Account created',
+      })
+
       signIn('credentials', {
         email: values.email,
         password: values.password,
       })
       
     } catch (error) {
-      console.log(error)
+      toast({
+        variant: 'destructive',
+        description: 'Something went wrong',
+      })
     } finally {
       setIsLoading(false)
     }

@@ -1,5 +1,6 @@
 import { Button, buttonVariants } from '@/components/Button'
 import Input from '@/components/Input'
+import { useToast } from '@/hooks/useToast'
 import {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
@@ -24,6 +25,8 @@ export default function SignIn({
   csrfToken,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
+  const { toast } = useToast()
+
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [values, setValues] = useState<Values>({
     email: '',
@@ -42,8 +45,17 @@ export default function SignIn({
         email: values.email,
         password: values.password,
       })
+
+      toast({
+        variant: 'success',
+        description: 'Signed in',
+      })
+
     } catch (error) {
-      console.log(error)
+      toast({
+        variant: 'destructive',
+        description: 'Something went wrong',
+      })
     } finally {
       setIsLoading(false)
     }
