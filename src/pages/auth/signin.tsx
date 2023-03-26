@@ -1,12 +1,18 @@
-import { Button } from '@/components/Button'
+import { Button, buttonVariants } from '@/components/Button'
 import Input from '@/components/Input'
-import { GetServerSidePropsContext, InferGetServerSidePropsType, NextPage } from 'next'
+import { useToast } from '@/hooks/useToast'
+import {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+  NextPage,
+} from 'next'
 import { getServerSession } from 'next-auth'
-import { getCsrfToken, getProviders, signIn, useSession } from 'next-auth/react'
+import { getCsrfToken, getProviders, signIn } from 'next-auth/react'
 import Head from 'next/head'
 import Image from 'next/image'
-import React, { useState } from 'react'
-import { AiOutlineGoogle } from 'react-icons/ai'
+import Link from 'next/link'
+import React, { useCallback, useState } from 'react'
+import { AiOutlineGoogle, AiOutlineMail } from 'react-icons/ai'
 import { authOptions } from '../api/auth/[...nextauth]'
 
 type Values = {
@@ -19,21 +25,41 @@ export default function SignIn({
   csrfToken,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
+  const { toast } = useToast()
+
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [values, setValues] = useState<Values>({
     email: '',
     password: '',
   })
 
-  const { data: session, status } = useSession()
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [event.target.name]: event.target.value })
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    console.log(values)
-  }
+  const handleSubmit = useCallback(async () => {
+    try {
+      setIsLoading(true)
+
+      await signIn('credentials', {
+        email: values.email,
+        password: values.password,
+      })
+
+      toast({
+        variant: 'success',
+        description: 'Signed in',
+      })
+
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        description: 'Something went wrong',
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }, [values])
 
   return (
     <div className="flex min-h-screen flex-col bg-[url('/noise.png')] items-center justify-center py-2 bg-[#18191b]">
@@ -52,7 +78,17 @@ export default function SignIn({
               👋<span className="heading-fade-line">Welcome Back</span>
             </h2>
             <p className="text-xs text-gray-400">
-              Sign In using Google or Email
+              Don't have an account?
+              <Link
+                className={buttonVariants({
+                  variant: 'link',
+                  size: 'sm',
+                  className: 'w-fit text-xs px-1',
+                })}
+                href={'/auth/signup'}
+              >
+                Sign Up
+              </Link>
             </p>
           </div>
         </header>
@@ -64,8 +100,9 @@ export default function SignIn({
             name="email"
             required
             onChange={handleChange}
-            placeholder='Email Address'
+            placeholder="Email Address"
             className="mb-4"
+            disabled={isLoading}
           />
           <Input
             id="password"
@@ -75,14 +112,15 @@ export default function SignIn({
             required
             placeholder="Password"
             className=""
+            disabled={isLoading}
           />
         </main>
         <footer className="w-full">
           <Button
-            onClick={() => signIn('credentials', values)}
+            onClick={handleSubmit}
             className="flex mt-6 justify-center items-center w-full text-center"
           >
-            Sign Up
+            Sign In
           </Button>
           <div className="flex w-full">
             <hr className="border mt-6 bg-gray-800 border-gray-700 h-[1px] w-full" />
@@ -92,7 +130,7 @@ export default function SignIn({
             <hr className="border mt-6 border-gray-700 h-[1px] w-full" />
           </div>
           {Object.values(providers)
-            .filter(provider => provider.name != 'Credentials')
+            .filter((provider) => provider.name != 'Credentials')
             .map((provider) => (
               <div key={provider.name}>
                 <Button
@@ -100,7 +138,7 @@ export default function SignIn({
                   onClick={() => signIn(provider.id)}
                 >
                   <AiOutlineGoogle className="mr-2 h-4 w-4" />
-                  Sign In with {provider.name}
+                  Continue with {provider.name}
                 </Button>
               </div>
             ))}

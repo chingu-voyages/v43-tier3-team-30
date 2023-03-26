@@ -1,8 +1,9 @@
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import CredentialsProvider from "next-auth/providers/credentials";
+import CredentialsProvider from 'next-auth/providers/credentials'
 import db from '../../../lib/prismadb'
+import * as bcrypt from 'bcrypt'
 
 function getGoogleCredentials(): { clientId: string; clientSecret: string } {
   const clientId = process.env.GOOGLE_CLIENT_ID
@@ -40,18 +41,24 @@ export const authOptions: NextAuthOptions = {
           email: string
           password: string
         }
+
         const dbUser = await db.user.findFirst({
           where: {
             email: email,
           },
         })
 
-        const user = { id: '1', name: 'J Smith', email: 'jsmith@example.com' }
-        if (dbUser) {
-          return dbUser
-        } else {
-          return null
-        }
+        if (!dbUser) return null
+        if (!dbUser.hashedPassword) return null
+
+        const authentication = await bcrypt.compare(
+          password,
+          dbUser.hashedPassword,
+        )
+
+        if (!authentication) return null
+
+        return dbUser
       },
     }),
   ],
