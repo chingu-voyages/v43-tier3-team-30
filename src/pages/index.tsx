@@ -1,5 +1,5 @@
-import { Button, buttonVariants } from '@/components/Button'
-import Input from '@/components/Input'
+import { Button, buttonVariants } from '@/components/ui/Button'
+import Input from '@/components/ui/Input'
 import useCurrentUser from '@/hooks/useCurrentUser'
 import { useToast } from '@/hooks/useToast'
 import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar'
