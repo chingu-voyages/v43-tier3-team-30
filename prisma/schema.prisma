@@ -49,21 +49,24 @@ model User {
 
   accounts        Account[]
   sessions        Session[]
-  event           Event[]
+  events          Event[]
 }
 
 model Event {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  title         String?
+  title         String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
   brochure_img  String?
-  favorite      Boolean
+  favorite      Boolean?
   tag           String?
   note          String?
-  date          DateTime
+  date          DateTime?
   userId        String    @db.ObjectId
 
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
 
 model VerificationToken {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
