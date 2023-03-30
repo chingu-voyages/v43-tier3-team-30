@@ -14,12 +14,15 @@ export default async function handler(
   try {
     if (req.method === 'POST') {
       const { currentUser } = await serverAuth(req)
-      const { title, note } = req.body
+      const { title, note, brochure_img, favorite, tag } = req.body
 
       const event = await db.event.create({
         data: {
           title,
           note,
+          brochure_img,
+          favorite,
+          tag,
           userId: currentUser.id,
         },
       })
