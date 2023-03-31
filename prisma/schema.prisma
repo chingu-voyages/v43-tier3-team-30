@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-arm64-openssl-1.1.x", "rhel-openssl-1.0.x"]
 }
 
@@ -36,37 +36,42 @@ model Session {
   userId       String   @db.ObjectId
   expires      DateTime
 
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id              String    @id @default(auto()) @map("_id") @db.ObjectId
-  name            String?
-  email           String?   @unique
-  emailVerified   DateTime?
-  image           String?
-  hashedPassword  String?
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  name              String?
+  email             String?   @unique
+  emailVerified     DateTime?
+  image             String?
+  hashedPassword    String?
+  sharedEventIds    String[]  @db.ObjectId
 
   accounts        Account[]
   sessions        Session[]
-  events          Event[]
+  initiatedEvents Event[]   @relation(name: "initiatedEvents")
+  sharedEvents    Event[]   @relation(name: "sharedEvents", fields: [sharedEventIds], references: [id])
 }
 
 model Event {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  title         String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  brochure_img  String?
-  favorite      Boolean?
-  tag           String?
-  note          String?
-  date          DateTime?
-  userId        String    @db.ObjectId
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  brochure_img String?
+  isPublic     Boolean?
+  favorite     Boolean?
+  tag          String?
+  note         String?
+  date         DateTime?
 
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sharedUserIds String[] @db.ObjectId
+  sharedUsers   User[]   @relation(name: "sharedEvents", fields: [sharedUserIds], references: [id])
+
+  userId String @db.ObjectId
+  user   User   @relation(name: "initiatedEvents", fields: [userId], references: [id], onDelete: Cascade)
 }
-
 
 model VerificationToken {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
