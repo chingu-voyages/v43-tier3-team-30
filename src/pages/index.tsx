@@ -1,6 +1,8 @@
+import { EventModal } from '@/components/EventModal'
 import { Button, buttonVariants } from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import useCurrentUser from '@/hooks/useCurrentUser'
+import useEvents from '@/hooks/useEvents'
 import { useToast } from '@/hooks/useToast'
 import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar'
 import axios from 'axios'
@@ -14,28 +16,27 @@ const Home: NextPage = () => {
   const { data: session, status } = useSession()
   const { data: currentUser } = useCurrentUser()
 
+  const { data: events = [] } = useEvents()
+
+  console.log('events :::: ', events)
+
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [name, setName] = useState<string>(currentUser?.name)
 
   const { toast } = useToast()
-
-  console.log(status === 'authenticated' && 'current : ', currentUser)
-
-  console.log(status === 'authenticated' && session.user)
 
   const onSubmit = useCallback(async () => {
     try {
       setIsLoading(true)
 
       await axios.patch('/api/edituser', {
-        name
+        name,
       })
 
       toast({
         variant: 'success',
         description: 'Name updated',
       })
-
     } catch (error) {
       toast({
         variant: 'destructive',
@@ -44,9 +45,7 @@ const Home: NextPage = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [
-    name
-  ])
+  }, [name])
 
   if (status === 'authenticated') {
     return (
@@ -85,9 +84,10 @@ const Home: NextPage = () => {
           onChange={(e) => setName(e.target.value)}
           value={name}
         />
-        <Button onClick={onSubmit} className="my-2" >
+        <Button onClick={onSubmit} className="my-2">
           Edit Name
         </Button>
+        <EventModal />
       </div>
     )
   }
