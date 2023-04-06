@@ -31,7 +31,7 @@ export default async function handler(
       } else {
         const publicEvents = await db.event.findMany({
           where: {
-            isPublic: true
+            isPublic: true,
           },
           orderBy: {
             createdAt: 'desc',
