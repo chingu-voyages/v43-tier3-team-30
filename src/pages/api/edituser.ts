@@ -28,7 +28,7 @@ export default async function handler(
       },
       data: {
         name,
-        image
+        image,
       },
     })
 

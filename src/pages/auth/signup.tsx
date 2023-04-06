@@ -21,7 +21,7 @@ const SignUp: NextPage = () => {
   const router = useRouter()
 
   const { toast } = useToast()
-  
+
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [values, setValues] = useState<Values>({
     name: '',
@@ -33,35 +33,37 @@ const SignUp: NextPage = () => {
     setValues({ ...values, [event.target.name]: event.target.value })
   }
 
-  const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const handleSubmit = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault()
 
-    try {
-      setIsLoading(true)
+      try {
+        setIsLoading(true)
 
-      await axios.post('/api/register', values)
+        await axios.post('/api/register', values)
 
-      setIsLoading(false)
+        setIsLoading(false)
 
-      toast({
-        variant: 'success',
-        description: 'Account created',
-      })
+        toast({
+          variant: 'success',
+          description: 'Account created',
+        })
 
-      signIn('credentials', {
-        email: values.email,
-        password: values.password,
-      })
-      
-    } catch (error) {
-      toast({
-        variant: 'destructive',
-        description: 'Something went wrong',
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  },[values])
+        signIn('credentials', {
+          email: values.email,
+          password: values.password,
+        })
+      } catch (error) {
+        toast({
+          variant: 'destructive',
+          description: 'Something went wrong',
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    [values],
+  )
 
   return (
     <div className="flex min-h-screen flex-col bg-[url('/noise.png')] items-center justify-center py-2 bg-[#18191b]">
