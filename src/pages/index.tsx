@@ -1,5 +1,6 @@
 import { EventModal } from '@/components/EventModal'
 import TopNav from '@/components/TopNav'
+import { FeedIndex } from '@/components/FeedIndex'
 import { Button, buttonVariants } from '@/components/ui/Button'
 import useCurrentUser from '@/hooks/useCurrentUser'
 import useEvents from '@/hooks/useEvents'
@@ -50,6 +51,7 @@ const Home: NextPage = () => {
       <div className="flex text-center space-y-4 min-h-screen flex-col bg-[url('/noise.png')] items-center justify-center py-2 dark:bg-[#18191b] dark:text-white">
         <TopNav />
         <EventModal />
+        <FeedIndex />
       </div>
     )
   }
