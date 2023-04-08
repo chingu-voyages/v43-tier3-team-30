@@ -1,6 +1,9 @@
 import { AiOutlineHeart, AiOutlineSmile } from 'react-icons/ai'
 import { MdFlipCameraAndroid } from 'react-icons/md'
 
+import useEvents from '@/hooks/useEvents';
+import { useSession } from 'next-auth/react';
+
 import BottomNav from '@/components/BottomNav';
 import EventCard from '@/components/EventCard';
 
@@ -26,11 +29,17 @@ const navList = [
 ]
 
 export function FeedIndex() {
+    const { data: session } = useSession()
+    const { data: events } = useEvents(session?.user.id);
 
     return (
         <>
-            <div className='px-4'>
-                <EventCard eventName="Event Name" eventDescription="A week of cool lights/lantern exhibits in Taipei" isFavorite />
+            <div className='w-full px-4'>
+                {
+                    events && events.map(({ brochure_img, favorite, note, title }) => {
+                        return <EventCard eventName={title} eventDescription={note} thumbnail={brochure_img} isFavorite={favorite} />
+                    })
+                }
             </div>
             <BottomNav tabs={navList} />
         </>

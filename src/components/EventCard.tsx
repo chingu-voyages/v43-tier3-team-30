@@ -21,7 +21,7 @@ const EventCard: FC<EventCardProps> = ({
 }) => {
 
     return (
-        <div className='flex p-2 bg-white border rounded shadow-md border-slate-100'>
+        <div className='flex p-2 mb-4 bg-white border rounded shadow-md border-slate-100'>
             <Image src={thumbnail || '/thumbnail-placeholder.svg'} width={92} height={92} alt={eventName} />
             <div className='ml-4 text-left'>
                 <Typography variant="subhead2" children={eventName} />

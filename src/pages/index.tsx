@@ -3,7 +3,6 @@ import TopNav from '@/components/TopNav'
 import { FeedIndex } from '@/components/FeedIndex'
 import { Button, buttonVariants } from '@/components/ui/Button'
 import useCurrentUser from '@/hooks/useCurrentUser'
-import useEvents from '@/hooks/useEvents'
 import { useToast } from '@/hooks/useToast'
 import axios from 'axios'
 import type { NextPage } from 'next'
@@ -14,10 +13,6 @@ import { useCallback, useState } from 'react'
 const Home: NextPage = () => {
   const { data: session, status } = useSession()
   const { data: currentUser } = useCurrentUser()
-
-  const { data: events = [] } = useEvents()
-
-  console.log('events :::: ', events)
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [name, setName] = useState<string>(currentUser?.name)
