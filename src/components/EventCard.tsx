@@ -9,7 +9,7 @@ import { Typography } from './ui/Typography';
 interface EventCardProps {
     thumbnail?: string,
     eventName: string,
-    eventDescription: string,
+    eventDescription?: string,
     isFavorite: boolean
 }
 

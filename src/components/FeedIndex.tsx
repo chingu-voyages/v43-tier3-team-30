@@ -3,6 +3,7 @@ import { MdFlipCameraAndroid } from 'react-icons/md'
 
 import useEvents from '@/hooks/useEvents';
 import { useSession } from 'next-auth/react';
+import { Event } from '@/lib/schema';
 
 import BottomNav from '@/components/BottomNav';
 import EventCard from '@/components/EventCard';
@@ -36,8 +37,8 @@ export function FeedIndex() {
         <>
             <div className='w-full px-4'>
                 {
-                    events && events.map(({ brochure_img, favorite, note, title }) => {
-                        return <EventCard eventName={title} eventDescription={note} thumbnail={brochure_img} isFavorite={favorite} />
+                    events && events.map(({ brochure_img, favorite, notes, title }: Event) => {
+                        return <EventCard eventName={title} eventDescription={notes?.join('')} thumbnail={brochure_img} isFavorite={Boolean(favorite)} />
                     })
                 }
             </div>
