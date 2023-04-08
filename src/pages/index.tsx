@@ -48,7 +48,7 @@ const Home: NextPage = () => {
 
   if (status === 'authenticated') {
     return (
-      <div className="flex text-center space-y-4 min-h-screen flex-col bg-[url('/noise.png')] items-center justify-center py-2 dark:bg-[#18191b] dark:text-white">
+      <div className="flex text-center space-y-4 min-h-screen flex-col items-center justify-center py-2 dark:bg-[#18191b] dark:text-white bg-[#EFF7FF]">
         <TopNav />
         <EventModal />
         <FeedIndex />

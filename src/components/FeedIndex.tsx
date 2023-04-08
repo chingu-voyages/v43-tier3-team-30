@@ -2,6 +2,7 @@ import { AiOutlineHeart, AiOutlineSmile } from 'react-icons/ai'
 import { MdFlipCameraAndroid } from 'react-icons/md'
 
 import BottomNav from '@/components/BottomNav';
+import EventCard from '@/components/EventCard';
 
 const navList = [
     {
@@ -28,7 +29,9 @@ export function FeedIndex() {
 
     return (
         <>
-            <h1>hello</h1>
+            <div className='px-4'>
+                <EventCard eventName="Event Name" eventDescription="A week of cool lights/lantern exhibits in Taipei" isFavorite />
+            </div>
             <BottomNav tabs={navList} />
         </>
     )
