@@ -7,37 +7,16 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  if (req.method !== 'POST' && req.method !== 'GET') {
-    return res.status(405).end()
-  }
+  const { method } = req
 
-  try {
-    if (req.method === 'POST') {
-      const { currentUser } = await serverAuth(req)
-      const { title, note, brochure_img, favorite, tag } = req.body
-
-      const event = await db.event.create({
-        data: {
-          title,
-          note,
-          brochure_img,
-          favorite,
-          tag,
-          userId: currentUser.id,
-        },
-      })
-      return res.status(200).json(event)
-    }
-
-    if (req.method === 'GET') {
+  switch (method) {
+    case 'GET':
       const { userId } = req.query
 
-      let events
-
       if (userId && typeof userId === 'string') {
-        events = await db.event.findMany({
+        const ownedEvents = await db.event.findMany({
           where: {
-            userId,
+            userId: userId,
           },
           include: {
             user: true,
@@ -46,18 +25,42 @@ export default async function handler(
             createdAt: 'desc',
           },
         })
+
+        res.status(200).json(ownedEvents)
+        break
       } else {
-        events = await db.event.findMany({
+        const publicEvents = await db.event.findMany({
+          where: {
+            isPublic: true,
+          },
           orderBy: {
             createdAt: 'desc',
           },
         })
+
+        res.status(200).json(publicEvents)
+        break
       }
 
-      return res.status(200).json(events)
-    }
-  } catch (error) {
-    console.log(error)
-    return res.status(400).end()
+    case 'POST':
+      const { currentUser } = await serverAuth(req)
+      const { title, brochure_img, favorite, tag } = req.body
+
+      const event = await db.event.create({
+        data: {
+          title,
+          brochure_img,
+          favorite,
+          tag,
+          userId: currentUser.id,
+        },
+      })
+
+      res.status(200).json(event)
+      break
+
+    default:
+      res.setHeader('Allow', ['GET', 'POST'])
+      res.status(405).end(`Method ${method} Not Allowed.`)
   }
 }

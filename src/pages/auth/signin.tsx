@@ -24,7 +24,6 @@ export default function SignIn({
   providers,
   csrfToken,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-
   const { toast } = useToast()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -50,7 +49,6 @@ export default function SignIn({
         variant: 'success',
         description: 'Signed in',
       })
-
     } catch (error) {
       toast({
         variant: 'destructive',
