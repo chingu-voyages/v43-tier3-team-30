@@ -30,13 +30,13 @@ export interface User {
   image?: string;
   hashedPassword?: string;
   sharedEventIds?: string[];
+  likedEventIds?: string[];
   accounts?: Account[];
   sessions?: Session[];
   initiatedEvents?: Event[];
   sharedEvents?: Event[];
-  notes?: Note[];
-  likedEventIds?: string[];
   likedEvents?: Event[];
+  notes?: Note[];
 }
 
 export interface Event {
@@ -49,13 +49,13 @@ export interface Event {
   favorite?: boolean;
   tag?: string;
   date?: Date;
+  likedUserIds?: string[];
+  linkedUsers?: User[];
   sharedUserIds?: string[];
   sharedUsers?: User[];
   userId: string;
   user: User;
   notes?: Note[];
-  likedUserIds?: string[];
-  likedUsers?: User[];
 }
 
 export interface Note {
