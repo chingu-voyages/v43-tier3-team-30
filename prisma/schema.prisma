@@ -65,6 +65,7 @@ model Event {
   favorite      Boolean?
   tag           String?
   date          DateTime?
+  likedIds      String[] @db.ObjectId
 
   sharedUserIds String[] @db.ObjectId
   sharedUsers   User[]   @relation(name: "sharedEvents", fields: [sharedUserIds], references: [id])

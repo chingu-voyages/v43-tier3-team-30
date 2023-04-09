@@ -52,6 +52,7 @@ export interface Event {
   userId: string;
   user: User;
   notes?: Note[];
+  likedIds: string[];
 }
 
 export interface Note {
