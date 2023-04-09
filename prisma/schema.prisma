@@ -47,11 +47,13 @@ model User {
   image          String?
   hashedPassword String?
   sharedEventIds String[]  @db.ObjectId
+  likedEventIds String[]  @db.ObjectId
 
   accounts        Account[]
   sessions        Session[]
   initiatedEvents Event[]   @relation(name: "initiatedEvents")
   sharedEvents    Event[]   @relation(name: "sharedEvents", fields: [sharedEventIds], references: [id])
+  likedEvents     Event[]   @relation(name: "likedEvents", fields: [likedEventIds], references: [id])
   notes           Note[]
 }
 
@@ -65,6 +67,9 @@ model Event {
   favorite      Boolean?
   tag           String?
   date          DateTime?
+
+  likedUserIds  String[] @db.ObjectId
+  linkedUsers   User[] @relation(name: "likedEvents", fields: [likedUserIds], references: [id])
 
   sharedUserIds String[] @db.ObjectId
   sharedUsers   User[]   @relation(name: "sharedEvents", fields: [sharedUserIds], references: [id])
