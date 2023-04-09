@@ -45,13 +45,13 @@ const FeedIndex: React.FC<FeedIndexProps> = ({ userId }) => {
       <div className="w-full px-4 pb-24">
         <h1>ff</h1>
         {events &&
-          events.map(({ id, brochure_img, favorite, notes, title, likedIds }: Event) => {
+          events.map(({ id, brochure_img, favorite, notes, title, likedUserIds }: Event) => {
             return (
               <EventCard
                 key={id}
                 userId={userId}
                 eventId={id}
-                likes={likedIds.length}
+                likes={likedUserIds!.length}
                 eventName={title}
                 eventDescription={notes?.join('')}
                 thumbnail={brochure_img}
