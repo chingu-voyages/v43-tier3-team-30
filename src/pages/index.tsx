@@ -1,6 +1,6 @@
 import { EventModal } from '@/components/EventModal'
+import FeedIndex from '@/components/FeedIndex'
 import TopNav from '@/components/TopNav'
-import { FeedIndex } from '@/components/FeedIndex'
 import { Button, buttonVariants } from '@/components/ui/Button'
 import useCurrentUser from '@/hooks/useCurrentUser'
 import { useToast } from '@/hooks/useToast'
@@ -45,8 +45,8 @@ const Home: NextPage = () => {
     return (
       <div className="flex text-center space-y-4 min-h-screen flex-col items-center justify-center py-2 dark:bg-[#18191b] dark:text-white bg-[#EFF7FF]">
         <TopNav />
-        <EventModal />
-        <FeedIndex />
+        {/* <EventModal /> */}
+        {currentUser && <FeedIndex userId={currentUser.id} />}
       </div>
     )
   }

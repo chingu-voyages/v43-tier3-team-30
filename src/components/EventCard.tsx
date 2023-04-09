@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useCallback } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router';
 
@@ -9,13 +9,17 @@ import useEvents from '@/hooks/useEvents';
 import { useToast } from '@/hooks/useToast'
 
 import { Typography } from './ui/Typography';
+import useLike from '@/hooks/useLike';
+import useCurrentUser from '@/hooks/useCurrentUser';
 
 interface EventCardProps {
-    eventId: string,
-    thumbnail?: string,
-    eventName: string,
-    eventDescription?: string,
-    isFavorite: boolean
+  eventId: string
+  thumbnail?: string
+  eventName: string
+  eventDescription?: string
+  isFavorite: boolean
+  userId?: string
+  likes: number
 }
 
 const EventCard: FC<EventCardProps> = ({
@@ -23,11 +27,31 @@ const EventCard: FC<EventCardProps> = ({
     thumbnail,
     eventName,
     eventDescription,
-    isFavorite
+    isFavorite,
+    userId,
+    likes
 }) => {
     const { mutate: mutateEvents } = useEvents()
     const { toast } = useToast()
+    const { data: currentUser } = useCurrentUser()
     const router = useRouter();
+
+    const { hasLiked, toggleLike } = useLike({ eventId: eventId, userId })
+
+    const onLike = useCallback(
+      async (ev: any) => {
+        ev.stopPropagation()
+
+        if (!currentUser) {
+          return router.push('/signup')
+        }
+
+        toggleLike()
+      },
+      [currentUser, toggleLike],
+    )
+
+    const LikeIcon = hasLiked ? AiFillHeart : AiOutlineHeart
 
     const toggleFavorite = async () => {
         try {
@@ -60,18 +84,27 @@ const EventCard: FC<EventCardProps> = ({
     }
 
     return (
-        <div onClick={navigateToEventPage} className='flex p-2 mb-4 bg-white border rounded shadow-md border-slate-100'>
-            <div className='rounded'>
-                <Image src={thumbnail || '/thumbnail-placeholder.svg'} width={92} height={92} alt={eventName} />
-            </div>
-            <div className='w-7/12 ml-4 text-left'>
-                <Typography variant="subhead2" children={eventName} />
-                <Typography variant="bodytext1" children={eventDescription} />
-            </div>
-            <div onClick={toggleFavorite}>
-                {isFavorite ? <AiFillHeart /> : <AiOutlineHeart />}
-            </div>
+      <div
+        onClick={navigateToEventPage}
+        className="flex p-2 mb-4 bg-white border rounded shadow-md border-slate-100"
+      >
+        <div className="rounded">
+          <Image
+            src={thumbnail || '/thumbnail-placeholder.svg'}
+            width={92}
+            height={92}
+            alt={eventName}
+          />
         </div>
+        <div className="w-7/12 ml-4 text-left">
+          <Typography variant="subhead2" children={eventName} />
+          <Typography variant="bodytext1" children={eventDescription} />
+        </div>
+        <div className='flex h-fit items-center space-x-1' onClick={onLike}>
+          <LikeIcon color={hasLiked ? 'red' : ''} size={20} />
+          <Typography variant="bodytext1">{likes}</Typography>
+        </div>
+      </div>
     )
 }
 
