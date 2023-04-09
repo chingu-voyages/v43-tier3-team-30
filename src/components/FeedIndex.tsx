@@ -37,8 +37,8 @@ export function FeedIndex() {
         <>
             <div className='w-full px-4'>
                 {
-                    events && events.map(({ brochure_img, favorite, notes, title }: Event) => {
-                        return <EventCard eventName={title} eventDescription={notes?.join('')} thumbnail={brochure_img} isFavorite={Boolean(favorite)} />
+                    events && events.map(({ id, brochure_img, favorite, notes, title }: Event) => {
+                        return <EventCard key={id} eventId={id} eventName={title} eventDescription={notes?.join('')} thumbnail={brochure_img} isFavorite={Boolean(favorite)} />
                     })
                 }
             </div>
