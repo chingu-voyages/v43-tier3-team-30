@@ -29,7 +29,6 @@ const navList = [
   },
 ]
 
-
 interface FeedIndexProps {
   userId?: string
 }
@@ -45,24 +44,33 @@ const FeedIndex: React.FC<FeedIndexProps> = ({ userId }) => {
       <div className="w-full px-4 pb-24">
         <h1>ff</h1>
         {events &&
-          events.map(({ id, brochure_img, favorite, notes, title, likedUserIds }: Event) => {
-            return (
-              <EventCard
-                key={id}
-                userId={userId}
-                eventId={id}
-                likes={likedUserIds!.length}
-                eventName={title}
-                eventDescription={notes?.join('')}
-                thumbnail={brochure_img}
-                isFavorite={Boolean(favorite)}
-              />
-            )
-          })}
+          events.map(
+            ({
+              id,
+              brochure_img,
+              favorite,
+              notes,
+              title,
+              likedUserIds,
+            }: Event) => {
+              return (
+                <EventCard
+                  key={id}
+                  userId={userId}
+                  eventId={id}
+                  likes={likedUserIds!.length}
+                  eventName={title}
+                  eventDescription={notes?.join('')}
+                  thumbnail={brochure_img}
+                  isFavorite={Boolean(favorite)}
+                />
+              )
+            },
+          )}
       </div>
       <BottomNav tabs={navList} />
     </>
   )
 }
 
-export default FeedIndex;
+export default FeedIndex

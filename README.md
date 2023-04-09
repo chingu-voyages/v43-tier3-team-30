@@ -20,15 +20,13 @@
     <a href="https://github.com/chingu-voyages/v43-tier3-team-30"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/chingu-voyages/v43-tier3-team-30">View Demo</a>
+    <a href="https://e-brochure-beta.vercel.app">View Demo</a>
     ·
     <a href="https://github.com/chingu-voyages/v43-tier3-team-30/issues">Report Bug</a>
     ·
     <a href="https://github.com/chingu-voyages/v43-tier3-team-30/issues">Request Feature</a>
   </p>
 </div>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -56,9 +54,8 @@
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
@@ -67,7 +64,7 @@ This APP is for the event-recording. Sometimes we get many brochures when we vis
 
     In this APP, we can:
     * Store our memories of exhibitions, galleries, and museums:
-    * Collect an e-brochure 
+    * Collect an e-brochure
     * Upload some photos
     * Write your comments
     * Collect the masterpieces you like
@@ -76,20 +73,17 @@ This APP is for the event-recording. Sometimes we get many brochures when we vis
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 ### Built With
 
-* Next.Js
-* TailwindCSS
-* RadixUi
-* NextAuth
+- Next.Js
+- TailwindCSS
+- RadixUi
+- NextAuth
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 This is an example of how you may give instructions on setting up your project locally.
@@ -98,7 +92,8 @@ To get a local copy up and running follow these simple example steps.
 ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
-* npm
+
+- npm
   ```sh
   npm install npm@latest -g
   ```
@@ -126,9 +121,8 @@ This is an example of how to list things you need to use the software and how to
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- USAGE EXAMPLES -->
+
 ## Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
@@ -137,9 +131,8 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- ROADMAP -->
+
 ## Roadmap
 
 - [x] Credential authentication
@@ -159,9 +152,8 @@ See the [open issues](https://github.com/chingu-voyages/v43-tier3-team-30/issues
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- CONTRIBUTING -->
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -177,38 +169,33 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- LICENSE -->
+
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- CONTACT -->
+
 ## Contact
 
 Project Link: [https://github.com/chingu-voyages/v43-tier3-team-30](https://github.com/chingu-voyages/v43-tier3-team-30)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- ACKNOWLEDGMENTS -->
+
 ## Acknowledgments
 
-* []()
-
+- []()
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/chingu-voyages/v43-tier3-team-30.svg?style=for-the-badge
 [contributors-url]: https://github.com/chingu-voyages/v43-tier3-team-30/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/chingu-voyages/v43-tier3-team-30.svg?style=for-the-badge

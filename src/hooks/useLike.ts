@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 
 const useLike = ({ eventId, userId }: { eventId: string; userId?: string }) => {
   const { data: currentUser } = useCurrentUser()
-  const {data: fetchedEvent, mutate: mutateFetchedEvent} = useEvent(eventId)
+  const { data: fetchedEvent, mutate: mutateFetchedEvent } = useEvent(eventId)
   const { mutate: mutateFetchedEvents } = useEvents(userId)
 
   const { toast } = useToast()

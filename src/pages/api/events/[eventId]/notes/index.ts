@@ -27,7 +27,7 @@ export default async function handler(
 
     case 'POST':
       const { content } = req.body
-      const { currentUser } = await serverAuth(req)
+      const { currentUser } = await serverAuth(req, res)
 
       if (!currentUser) {
         res.status(401).json('Sign In Required.')

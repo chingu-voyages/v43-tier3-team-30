@@ -43,7 +43,7 @@ export default async function handler(
       }
 
     case 'POST':
-      const { currentUser } = await serverAuth(req)
+      const { currentUser } = await serverAuth(req, res)
       const { title, brochure_img, favorite, tag } = req.body
 
       const event = await db.event.create({

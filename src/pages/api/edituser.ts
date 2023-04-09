@@ -12,7 +12,7 @@ export default async function handler(
   }
 
   try {
-    const { currentUser } = await serverAuth(req)
+    const { currentUser } = await serverAuth(req, res)
 
     console.log(currentUser)
 

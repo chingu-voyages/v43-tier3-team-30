@@ -28,7 +28,7 @@ export default async function handler(
 
     case 'PATCH':
       const { title, brochure_img, favorite, tag } = req.body
-      const { currentUser } = await serverAuth(req)
+      const { currentUser } = await serverAuth(req, res)
 
       if (!currentUser) {
         res.status(401).json('Sign In Required.')
