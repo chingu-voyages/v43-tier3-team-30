@@ -16,7 +16,6 @@
 
   <p align="center">
     The event-recording application that you deserve.
-
     <br />
     <a href="https://github.com/chingu-voyages/v43-tier3-team-30"><strong>Explore the docs »</strong></a>
     <br />
