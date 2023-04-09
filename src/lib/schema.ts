@@ -35,6 +35,8 @@ export interface User {
   initiatedEvents?: Event[];
   sharedEvents?: Event[];
   notes?: Note[];
+  likedEventIds?: string[];
+  likedEvents?: Event[];
 }
 
 export interface Event {
@@ -52,7 +54,8 @@ export interface Event {
   userId: string;
   user: User;
   notes?: Note[];
-  likedIds: string[];
+  likedUserIds?: string[];
+  likedUsers?: User[];
 }
 
 export interface Note {

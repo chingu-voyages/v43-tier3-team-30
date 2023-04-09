@@ -30,7 +30,7 @@ export default async function handler(
       throw new Error('Invalid ID')
     }
 
-    let updatedLikedIds = [...(event.likedIds || [])]
+    let updatedLikedIds = [...(event.likedUserIds || [])]
 
     if (req.method === 'POST') {
       updatedLikedIds.push(currentUser.id)
@@ -47,7 +47,7 @@ export default async function handler(
         id: eventId,
       },
       data: {
-        likedIds: updatedLikedIds,
+        likedUserIds: updatedLikedIds,
       },
     })
 
