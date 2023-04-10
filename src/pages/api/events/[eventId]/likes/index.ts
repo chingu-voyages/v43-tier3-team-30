@@ -17,17 +17,17 @@ export default async function handler(
 
   switch (method) {
     case 'GET':
-        const like = await db.like.findUnique({
-            where: {
-                userId_eventId: {
-                    userId: currentUser.id,
-                    eventId: eventId
-                }
-            }
-        })
+      const like = await db.like.findUnique({
+        where: {
+          userId_eventId: {
+            userId: currentUser.id,
+            eventId: eventId,
+          },
+        },
+      })
 
-        res.status(200).json(like)
-        break
+      res.status(200).json(like)
+      break
 
     case 'POST':
       const createdLike = await db.like.create({
@@ -40,12 +40,11 @@ export default async function handler(
       res.status(200).json(createdLike)
       break
     case 'DELETE':
-
       const deletedLike = await db.like.delete({
         where: {
           userId_eventId: {
             userId: currentUser.id,
-            eventId: eventId
+            eventId: eventId,
           },
         },
       })

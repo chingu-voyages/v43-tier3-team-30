@@ -32,16 +32,15 @@ const EventCard: FC<EventCardProps> = ({
   const { mutate: mutateEvents } = useEvents()
   const { toast } = useToast()
   const { data: currentUser } = useCurrentUser()
-  const [ likes, setLikes] = useState(0)
+  const [likes, setLikes] = useState(0)
   const router = useRouter()
 
   const { toggleLike, likeCount } = useLike({ eventId: eventId, userId })
 
   useEffect(() => {
-
-    likeCount().then(count => {
+    likeCount().then((count) => {
       setLikes(count)
-    } )
+    })
   }, [toggleLike])
 
   const onLike = useCallback(

@@ -18,7 +18,9 @@ const useLike = ({ eventId, userId }: { eventId: string; userId?: string }) => {
     }
 
     try {
-      const like = await axios.post(`/api/events/${eventId}/likes`, { data: { eventId } })
+      const like = await axios.post(`/api/events/${eventId}/likes`, {
+        data: { eventId },
+      })
 
       if (like) {
         toast({
@@ -44,7 +46,9 @@ const useLike = ({ eventId, userId }: { eventId: string; userId?: string }) => {
     }
 
     try {
-      const like = await axios.delete(`/api/events/${eventId}/likes`, { data: { eventId } })
+      const like = await axios.delete(`/api/events/${eventId}/likes`, {
+        data: { eventId },
+      })
 
       if (like) {
         toast({
@@ -96,7 +100,7 @@ const useLike = ({ eventId, userId }: { eventId: string; userId?: string }) => {
 
   return {
     toggleLike,
-    likeCount
+    likeCount,
   }
 
   // const { data: fetchedEvent, mutate: mutateFetchedEvent } = useEvent(eventId)
