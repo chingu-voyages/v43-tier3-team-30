@@ -1,4 +1,4 @@
-import { FC, useCallback } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
@@ -19,7 +19,6 @@ interface EventCardProps {
   eventDescription?: string
   isFavorite: boolean
   userId?: string
-  likes: number
 }
 
 const EventCard: FC<EventCardProps> = ({
@@ -29,14 +28,21 @@ const EventCard: FC<EventCardProps> = ({
   eventDescription,
   isFavorite,
   userId,
-  likes,
 }) => {
   const { mutate: mutateEvents } = useEvents()
   const { toast } = useToast()
   const { data: currentUser } = useCurrentUser()
+  const [ likes, setLikes] = useState(0)
   const router = useRouter()
 
-  const { hasLiked, toggleLike } = useLike({ eventId: eventId, userId })
+  const { toggleLike, likeCount } = useLike({ eventId: eventId, userId })
+
+  useEffect(() => {
+
+    likeCount().then(count => {
+      setLikes(count)
+    } )
+  }, [toggleLike])
 
   const onLike = useCallback(
     async (ev: any) => {
@@ -51,7 +57,7 @@ const EventCard: FC<EventCardProps> = ({
     [currentUser, toggleLike],
   )
 
-  const LikeIcon = hasLiked ? AiFillHeart : AiOutlineHeart
+  const LikeIcon = true ? AiFillHeart : AiOutlineHeart
 
   const toggleFavorite = async () => {
     try {
@@ -102,7 +108,7 @@ const EventCard: FC<EventCardProps> = ({
         <Typography variant="bodytext1" children={eventDescription} />
       </div>
       <div className="flex h-fit items-center space-x-1" onClick={onLike}>
-        <LikeIcon color={hasLiked ? 'red' : ''} size={20} />
+        <LikeIcon color={true ? 'red' : ''} size={20} />
         <Typography variant="bodytext1">{likes}</Typography>
       </div>
     </div>

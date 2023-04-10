@@ -30,13 +30,13 @@ export interface User {
   image?: string
   hashedPassword?: string
   sharedEventIds?: string[]
-  likedEventIds?: string[]
   accounts?: Account[]
   sessions?: Session[]
   initiatedEvents?: Event[]
   sharedEvents?: Event[]
-  likedEvents?: Event[]
   notes?: Note[]
+  likeIds?: string[]
+  likes?: Like[]
 }
 
 export interface Event {
@@ -49,18 +49,26 @@ export interface Event {
   favorite?: boolean
   tag?: string
   date?: Date
-  likedUserIds?: string[]
-  linkedUsers?: User[]
   sharedUserIds?: string[]
   sharedUsers?: User[]
   userId: string
   user: User
   notes?: Note[]
+  likeIds?: string[]
+  likes?: Like[]
 }
 
 export interface Note {
   id: string
   content: string
+  eventId: string
+  event: Event
+  userId: string
+  user: User
+}
+
+export interface Like {
+  id: string
   eventId: string
   event: Event
   userId: string
