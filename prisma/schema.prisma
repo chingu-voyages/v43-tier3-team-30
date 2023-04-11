@@ -47,14 +47,13 @@ model User {
   image          String?
   hashedPassword String?
   sharedEventIds String[]  @db.ObjectId
-  likedEventIds String[]  @db.ObjectId
 
   accounts        Account[]
   sessions        Session[]
   initiatedEvents Event[]   @relation(name: "initiatedEvents")
   sharedEvents    Event[]   @relation(name: "sharedEvents", fields: [sharedEventIds], references: [id])
-  likedEvents     Event[]   @relation(name: "likedEvents", fields: [likedEventIds], references: [id])
   notes           Note[]
+  likes           Like[]
 }
 
 model Event {
@@ -67,17 +66,14 @@ model Event {
   favorite      Boolean?
   tag           String?
   date          DateTime?
+  userId        String    @db.ObjectId
+  sharedUserIds String[]  @db.ObjectId
 
-  likedUserIds  String[] @db.ObjectId
-  linkedUsers   User[] @relation(name: "likedEvents", fields: [likedUserIds], references: [id])
 
-  sharedUserIds String[] @db.ObjectId
-  sharedUsers   User[]   @relation(name: "sharedEvents", fields: [sharedUserIds], references: [id])
-
-  userId        String @db.ObjectId
-  user          User   @relation(name: "initiatedEvents", fields: [userId], references: [id], onDelete: Cascade)
-
+  user          User      @relation(name: "initiatedEvents", fields: [userId], references: [id], onDelete: Cascade)
+  sharedUsers   User[]    @relation(name: "sharedEvents", fields: [sharedUserIds], references: [id])
   notes         Note[]
+  likes         Like[]
 }
 
 model Note {
@@ -89,6 +85,17 @@ model Note {
 
   userId        String @db.ObjectId
   user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Like {
+  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String @db.ObjectId
+  eventId       String @db.ObjectId
+
+  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event         Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, eventId])
 }
 
 model VerificationToken {
