@@ -47,7 +47,6 @@ model User {
   image          String?
   hashedPassword String?
   sharedEventIds String[]  @db.ObjectId
-  likeIds        String[]  @db.ObjectId
 
   accounts        Account[]
   sessions        Session[]
@@ -69,7 +68,6 @@ model Event {
   date          DateTime?
   userId        String    @db.ObjectId
   sharedUserIds String[]  @db.ObjectId
-  likeIds       String[]  @db.ObjectId
 
 
   user          User      @relation(name: "initiatedEvents", fields: [userId], references: [id], onDelete: Cascade)
