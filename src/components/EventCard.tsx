@@ -56,34 +56,7 @@ const EventCard: FC<EventCardProps> = ({
     [currentUser, toggleLike],
   )
 
-  const LikeIcon = true ? AiFillHeart : AiOutlineHeart
-
-  const toggleFavorite = async () => {
-    try {
-      await axios.patch(`/api/events/${eventId}`, {
-        title: eventName,
-        brochure_img: thumbnail,
-        favorite: !isFavorite,
-      })
-
-      toast({
-        variant: 'success',
-        description: !isFavorite
-          ? 'Set the event to the favorite list'
-          : 'Remove the event from the favorite list.',
-      })
-
-      mutateEvents()
-      window.location.reload()
-    } catch (error) {
-      toast({
-        variant: 'destructive',
-        description: 'Something went wrong',
-      })
-    } finally {
-      window.location.reload()
-    }
-  }
+  const LikeIcon = likes ? AiFillHeart : AiOutlineHeart
 
   const navigateToEventPage = () => {
     router.push(`/events/${eventId}`)
@@ -106,8 +79,8 @@ const EventCard: FC<EventCardProps> = ({
         <Typography variant="subhead2" children={eventName} />
         <Typography variant="bodytext1" children={eventDescription} />
       </div>
-      <div className="flex h-fit items-center space-x-1" onClick={onLike}>
-        <LikeIcon color={true ? 'red' : ''} size={20} />
+      <div className="flex items-center space-x-1 h-fit" onClick={onLike}>
+        <LikeIcon color={likes ? 'red' : ''} size={20} />
         <Typography variant="bodytext1">{likes}</Typography>
       </div>
     </div>

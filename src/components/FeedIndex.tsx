@@ -7,6 +7,7 @@ import { Event } from '@/lib/schema'
 
 import BottomNav from '@/components/BottomNav'
 import EventCard from '@/components/EventCard'
+import { EventModal } from './EventModal'
 
 const navList = [
   {
@@ -41,6 +42,7 @@ const FeedIndex: React.FC<FeedIndexProps> = ({ userId }) => {
 
   return (
     <>
+      <EventModal />
       <div className="w-full px-4 pb-24">
         {events &&
           events.map(({ id, brochure_img, favorite, notes, title }: Event) => {
@@ -57,6 +59,7 @@ const FeedIndex: React.FC<FeedIndexProps> = ({ userId }) => {
             )
           })}
       </div>
+
       <BottomNav tabs={navList} />
     </>
   )

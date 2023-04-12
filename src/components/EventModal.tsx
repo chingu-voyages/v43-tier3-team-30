@@ -17,7 +17,6 @@ import useEvents from '@/hooks/useEvents'
 
 type Values = {
   title: string
-  note: string
 }
 
 export function EventModal() {
@@ -25,18 +24,14 @@ export function EventModal() {
 
   const [values, setValues] = useState<Values>({
     title: '',
-    note: '',
   })
   const [isLoading, setIsLoading] = useState(false)
 
   const { mutate: mutateEvents } = useEvents()
 
-  console.log('event : ', values)
-
   const handleSubmit = useCallback(async () => {
     try {
       setIsLoading(true)
-      console.log(values.title)
 
       await axios.post('/api/events', values)
 
@@ -49,8 +44,7 @@ export function EventModal() {
 
       mutateEvents()
       setValues({
-        title: '',
-        note: '',
+        title: ''
       })
     } catch (error) {
       toast({
@@ -82,13 +76,6 @@ export function EventModal() {
           id="title"
           name="title"
           placeholder="What's the event name?"
-          className="col-span-3"
-          onChange={handleChange}
-        />
-        <Input
-          id="note"
-          name="note"
-          placeholder="Have some notes?"
           className="col-span-3"
           onChange={handleChange}
         />

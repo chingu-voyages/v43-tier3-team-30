@@ -1,18 +1,40 @@
-import useEvent from '@/hooks/useEvent'
 import { useRouter } from 'next/router'
 import React from 'react'
+import Image from 'next/image'
+
+import useEvent from '@/hooks/useEvent'
+import useNotes from '@/hooks/useNotes';
+import { Note } from '@/lib/schema';
+
+import { Typography } from '@/components/ui/Typography';
+import ImageUpload from '@/components/ui/ImageUpload';
 
 const ViewEvent = () => {
   const router = useRouter()
   const { eventId } = router.query
 
-  console.log(eventId)
+  const { data: fetchedPost, isLoading: isPostLoading } = useEvent(eventId as string)
+  const { data: notes, isLoading: isNotesLoading } = useNotes(eventId as string)
 
-  const { data: fetchedPost, isLoading } = useEvent(eventId as string)
-  console.log(fetchedPost)
+  const handleChange = () => {
+    console.log("handleChange")
+  }
+
   return (
-    <div className="flex text-center space-y-4 min-h-screen flex-col bg-[url('/noise.png')] items-center justify-center py-2 bg-[#18191b] text-white">
-      {fetchedPost?.title}
+    <div className="p-4 space-y-4 min-h-screen flex-col items-center justify-center py-2 dark:bg-[#18191b] dark:text-white bg-white">
+      <Image
+        src={fetchedPost?.brochure_img || '/thumbnail-placeholder.svg'}
+        width={1000}
+        height={710}
+        alt={fetchedPost?.title}
+      />
+      <div className='text-left'>
+        <Typography variant="h5" children={fetchedPost?.title} className="mb-4" />
+        {notes && <Typography variant="bodytext1" children={notes.map((note: Note) => note.content).join(' ')} />}
+      </div>
+      <div className='w-6/12'>
+        <ImageUpload onChange={handleChange} />
+      </div>
     </div>
   )
 }

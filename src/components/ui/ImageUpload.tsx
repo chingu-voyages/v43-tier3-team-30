@@ -11,7 +11,7 @@ const uploadPreset = 'caxbcy1y'
 
 interface ImageUploadProps {
   onChange: (value: string) => void
-  value: string
+  value?: string
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
@@ -34,29 +34,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
         return (
           <div
             onClick={() => open?.()}
-            className="
-              relative
-              cursor-pointer
-              hover:opacity-70
-              transition
-              border-dashed 
-              border-2 
-              px-20 py-12 rounded-2xl
-              border-neutral-300
-              flex
-              flex-col
-              justify-center
-              items-center
-              gap-4
-              text-neutral-600
-            "
+            className="relative flex flex-col items-center justify-center gap-4 px-20 py-12 transition border-2 border-dashed cursor-pointer hover:opacity-70 rounded-2xl border-neutral-300 text-neutral-600"
           >
             <TbPhotoPlus size={50} />
-            <div className="font-semibold text-lg">Click to upload</div>
+            <div className="text-lg font-semibold">Click to upload</div>
             {value && (
               <div
-                className="
-              absolute inset-0 w-full h-full"
+                className="absolute inset-0 w-full h-full "
               >
                 <Image fill style={{ objectFit: 'cover' }} src={value} alt="" />
               </div>
