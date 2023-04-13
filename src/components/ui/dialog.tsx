@@ -47,7 +47,7 @@ const DialogContent = React.forwardRef<
       ref={ref}
       className={cn(
         'animate-in data-[state=open]:fade-in-90 data-[state=open]:slide-in-from-bottom-10 sm:zoom-in-90 data-[state=open]:sm:slide-in-from-bottom-0 fixed z-50 grid w-full gap-4 rounded-b-lg bg-white p-6 sm:max-w-lg sm:rounded-lg',
-        'dark:bg-[#16181A]',
+        'dark:bg-[#16181A] h-screen md:h-fit',
         className,
       )}
       {...props}
@@ -57,7 +57,7 @@ const DialogContent = React.forwardRef<
         className={buttonVariants({
           variant: 'destructive',
           size: 'xs',
-          className: 'absolute top-4 right-4 rounded-full',
+          className: 'absolute top-6 right-6 rounded-full',
         })}
       >
         <RxCross2 className="h-4 w-4" />
