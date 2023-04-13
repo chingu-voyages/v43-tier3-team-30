@@ -2,8 +2,11 @@ import { cn } from '@/lib/utils'
 import React, { DetailedHTMLProps, InputHTMLAttributes } from 'react'
 
 type InputProps = {
+  id: string
   label?: string
-  className?: string
+  type?: string
+  disabled?: boolean
+  required?: boolean
 } & Omit<
   DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
   'size'
@@ -11,21 +14,24 @@ type InputProps = {
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    { id, name, label, type = 'text', className = '', placeholder, ...props },
+    { id, name, label, required, type = 'text', className = '', placeholder, ...props },
     ref,
   ) => {
     return (
-      <div className="flex space-y-1 items-start">
+      <div className="flex space-y-1 items-start flex-col">
         {label && (
-          <label htmlFor={id} className="text-sm text-gray-200">
+          <label
+            htmlFor={id}
+            className="text-sm text-gray-800 dark:text-gray-200"
+          >
             {label}
           </label>
         )}
         <input
           id={id}
-          ref={ref}
           name={name}
           type={type}
+          ref={ref}
           aria-label={label}
           placeholder={placeholder}
           className={cn(
