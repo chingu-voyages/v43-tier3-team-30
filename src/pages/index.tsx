@@ -90,14 +90,7 @@ const Home: NextPage = () => {
 
   return (
     <div className="flex min-h-screen flex-col bg-[url('/noise.png')] items-center justify-center py-2 bg-[#18191b] text-white">
-      {/* <Link
-        className={buttonVariants({
-          variant: 'default',
-        })}
-        href="/auth/signin"
-      >
-        Sign in
-      </Link> */}
+      {/* TODO: the different version when the user is authenticated */}
       <LandingPage />
     </div>
   )
