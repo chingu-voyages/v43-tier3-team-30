@@ -17,6 +17,15 @@ import ImageUpload from '@/components/ui/ImageUpload';
 import BottomNav from '@/components/BottomNav';
 import { Button } from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 
 const ViewEvent = () => {
   const router = useRouter()
@@ -38,6 +47,21 @@ const ViewEvent = () => {
     setUpdatingNotes(notes);
     setNewImg(fetchedPost?.brochure_img);
     setIsEditing(true);
+  }
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/api/events/${fetchedPost.id}`);
+      toast({
+        variant: 'success',
+        description: 'The event is deleted successfully',
+      })
+      router.push('/');
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        description: 'Something went wrong.',
+      })
+    }
   }
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => setNewTitle(e.target.value);
@@ -74,7 +98,28 @@ const ViewEvent = () => {
         href: '',
         name: 'Delete the Event',
         tabName: 'Delete the Event',
-        icon: <AiTwotoneDelete size={24} />,
+        icon: (
+          <Dialog>
+            <DialogTrigger asChild>
+              <AiTwotoneDelete size={24} />
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Are you sure?</DialogTitle>
+                <DialogDescription>
+                  Do you really want to delete the event?<br></br>
+                  The event <b>can't be</b> restored if you delete it.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button onClick={handleDelete} variant="destructive" className='mb-4'>
+                  Yes, delete it!
+                </Button>
+                <Button onClick={() => router.reload()}>No, get back to the event page.</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog >
+        ),
       },
     ]
   }, []);
@@ -117,7 +162,7 @@ const ViewEvent = () => {
         description: 'The event is updated successfully',
       })
       setIsEditing(false);
-      router.reload
+      router.reload();
     } catch (error) {
       toast({
         variant: 'destructive',
@@ -165,6 +210,7 @@ const ViewEvent = () => {
         )
         }
       </div>
+
       <BottomNav tabs={navList} />
     </>
   )
