@@ -4,7 +4,7 @@ import React, { FC } from 'react'
 import { AiOutlineHome, AiOutlinePlus, AiOutlineUser } from 'react-icons/ai'
 
 interface NavTabProps {
-  tabs: {
+  tabs?: {
     name: string
     href?: any
     tabName?: string
@@ -54,11 +54,10 @@ const BottomNav: FC<NavTabProps> = ({
             key={nav.tabName}
             href={nav.href}
             className={`flex flex-col items-center px-3 transition duration-500 hover:scale-110" mr-1
-            ${
-              checkCurrentRoute(nav.href)
+            ${checkCurrentRoute(nav.href)
                 ? ''
                 : 'text-gray-800 dark:text-gray-500 text-opacity-50'
-            }`}
+              }`}
           >
             {nav.icon}
             {/* <span className="mt-1 text-xs dark:text-gray-500">Home</span> */}
