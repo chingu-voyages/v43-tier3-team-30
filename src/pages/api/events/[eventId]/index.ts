@@ -21,6 +21,9 @@ export default async function handler(
         where: {
           id: eventId,
         },
+        include: {
+          notes: true
+        }
       })
 
       res.status(200).json(event)

@@ -40,15 +40,25 @@ export default function SignIn({
     try {
       setIsLoading(true)
 
-      await signIn('credentials', {
+      const signInResult = await signIn('credentials', {
         email: values.email,
         password: values.password,
+        callbackUrl: '/'
       })
 
-      toast({
-        variant: 'success',
-        description: 'Signed in',
-      })
+      if (signInResult?.ok) {
+        toast({
+          variant: 'success',
+          description: 'Signed in',
+        })
+
+      }
+      if (signInResult?.error) {
+        toast({
+          variant: 'destructive',
+          description: 'Something went wrong',
+        })
+      }
     } catch (error) {
       toast({
         variant: 'destructive',
