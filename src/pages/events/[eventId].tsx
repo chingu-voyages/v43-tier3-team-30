@@ -1,23 +1,42 @@
 import { useRouter } from 'next/router'
 import React from 'react'
+import axios from 'axios';
+
 import Image from 'next/image'
 
 import useEvent from '@/hooks/useEvent'
 import useNotes from '@/hooks/useNotes';
+import { useToast } from '@/hooks/useToast'
 import { Note } from '@/lib/schema';
 
 import { Typography } from '@/components/ui/Typography';
 import ImageUpload from '@/components/ui/ImageUpload';
+import { Button } from '@/components/ui/Button';
 
 const ViewEvent = () => {
   const router = useRouter()
+  const { toast } = useToast()
   const { eventId } = router.query
 
   const { data: fetchedPost, isLoading: isPostLoading } = useEvent(eventId as string)
   const { data: notes, isLoading: isNotesLoading } = useNotes(eventId as string)
 
-  const handleChange = () => {
-    console.log("handleChange")
+  const handleChange = async (imgUrl: string) => {
+    try {
+      await axios.patch(`/api/events/${eventId}`, {
+        brochure_img: imgUrl
+      })
+
+      toast({
+        variant: 'success',
+        description: 'The brochure image is updated successfully.',
+      })
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        description: 'Something went wrong.',
+      })
+    }
   }
 
   return (

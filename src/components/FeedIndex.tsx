@@ -38,8 +38,6 @@ const FeedIndex: React.FC<FeedIndexProps> = ({ userId }) => {
   const { data: session } = useSession()
   const { data: events } = useEvents(session?.user.id)
 
-  console.log(events)
-
   return (
     <>
       <EventModal />

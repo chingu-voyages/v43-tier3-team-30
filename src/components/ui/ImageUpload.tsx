@@ -7,6 +7,8 @@ declare global {
   var cloudinary: any
 }
 
+// caxbcy1y
+// dvdn0fbf6
 const uploadPreset = 'caxbcy1y'
 
 interface ImageUploadProps {
@@ -34,7 +36,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
         return (
           <div
             onClick={() => open?.()}
-            className="relative flex flex-col items-center justify-center gap-4 px-20 py-12 transition border-2 border-dashed cursor-pointer hover:opacity-70 rounded-2xl border-neutral-300 text-neutral-600"
+            className="relative flex flex-col items-center justify-center gap-4 px-20 py-12 transition border-2 border-dashed cursor-pointer hover:opacity-70 rounded-2xl border-neutral-300 text-neutral-600 "
           >
             <TbPhotoPlus size={50} />
             <div className="text-lg font-semibold">Click to upload</div>
