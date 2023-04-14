@@ -42,6 +42,11 @@ const BottomNav: FC<NavTabProps> = ({
   const checkCurrentRoute = (route: string) => {
     return router.asPath === route || router.asPath.split('/')[1] === route
   }
+  const handleClick = (e: React.MouseEvent<HTMLElement>, href: string) => {
+    if (!href) {
+      e.preventDefault();
+    }
+  }
 
   return (
     <nav
@@ -53,6 +58,7 @@ const BottomNav: FC<NavTabProps> = ({
           <Link
             key={nav.tabName}
             href={nav.href}
+            onClick={(e) => handleClick(e, nav.href)}
             className={`flex flex-col items-center px-3 transition duration-500 hover:scale-110" mr-1
             ${checkCurrentRoute(nav.href)
                 ? ''

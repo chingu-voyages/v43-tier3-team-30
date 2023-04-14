@@ -5,12 +5,14 @@ import { useRouter } from 'next/router'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import Image from 'next/image'
 
+import { Note } from '@/lib/schema'
 import useEvents from '@/hooks/useEvents'
 import { useToast } from '@/hooks/useToast'
-
-import { Typography } from './ui/Typography'
 import useLike from '@/hooks/useLike'
 import useCurrentUser from '@/hooks/useCurrentUser'
+import useNotes from '@/hooks/useNotes'
+
+import { Typography } from './ui/Typography'
 
 interface EventCardProps {
   eventId: string
@@ -34,6 +36,7 @@ const EventCard: FC<EventCardProps> = ({
   const { data: currentUser } = useCurrentUser()
   const [likes, setLikes] = useState(0)
   const router = useRouter()
+  const { data: notes } = useNotes(eventId);
 
   const { toggleLike, likeCount } = useLike({ eventId: eventId, userId })
 
@@ -77,7 +80,7 @@ const EventCard: FC<EventCardProps> = ({
       </div>
       <div className="w-7/12 ml-4 text-left">
         <Typography variant="subhead2" children={eventName} />
-        <Typography variant="bodytext1" children={eventDescription} />
+        {notes?.length && notes.map(({ id, content }: Note) => (<Typography key={id} variant="bodytext1" children={content} />))}
       </div>
       <div className="flex items-center space-x-1 h-fit" onClick={onLike}>
         <LikeIcon color={likes ? 'red' : ''} size={20} />
