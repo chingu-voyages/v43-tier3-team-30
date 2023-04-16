@@ -49,10 +49,29 @@ const SignUp: NextPage = () => {
           description: 'Account created',
         })
 
-        signIn('credentials', {
-          email: values.email,
-          password: values.password,
+        // signIn('credentials', {
+        //   email: values.email,
+        //   password: values.password,
+        // })
+
+      const signInResult = await signIn('credentials', {
+        email: values.email,
+        password: values.password,
+        callbackUrl: '/'
+      })
+
+      if (signInResult?.ok) {
+        toast({
+          variant: 'success',
+          description: 'Signed in',
         })
+      }
+      if (signInResult?.error) {
+        toast({
+          variant: 'destructive',
+          description: 'Something went wrong',
+        })
+      }
       } catch (error) {
         toast({
           variant: 'destructive',

@@ -42,11 +42,12 @@ export const authOptions: NextAuthOptions = {
           password: string
         }
 
-        const dbUser = await db.user.findFirst({
+        const dbUser = await db.user.findUnique({
           where: {
             email: email,
           },
         })
+        console.log(dbUser)
 
         if (!dbUser) return null
         if (!dbUser.hashedPassword) return null
@@ -74,9 +75,9 @@ export const authOptions: NextAuthOptions = {
       return session
     },
     async jwt({ token, user }) {
-      const dbUser = await db.user.findFirst({
+      const dbUser = await db.user.findUnique({
         where: {
-          email: token.email,
+          email: token.email!,
         },
       })
 
@@ -92,9 +93,9 @@ export const authOptions: NextAuthOptions = {
         picture: dbUser.image,
       }
     },
-    redirect() {
-      return '/'
-    },
+  },
+  pages: {
+    signIn: '/auth/signin',
   },
 }
 

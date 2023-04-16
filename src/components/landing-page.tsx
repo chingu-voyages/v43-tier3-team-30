@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useRouter } from 'next/router'
 import 'swiper/css';
+import { v4 as uuidv4 } from 'uuid';
 
 import Image from 'next/image'
 import Link from 'next/link'
@@ -185,7 +186,7 @@ export function LandingPage() {
                             >
                                 {events.map(({ brochure_img, eventName, eventDescription, likes }, index) => {
                                     return (
-                                        <SwiperSlide key={`${eventName}-${index}`}>
+                                        <SwiperSlide key={uuidv4()}>
                                             <div className='relative mb-2'>
                                                 <Image src={brochure_img} alt={eventName}
                                                     width="0"
@@ -210,7 +211,7 @@ export function LandingPage() {
                     <div>
                         {reasons.map(({ imgSrc, title, content }, index) => {
                             return (
-                                <div key={`${title}-${index}`} className='flex gap-6 mb-6'>
+                                <div className='flex gap-6 mb-6' key={uuidv4()}>
                                     <div className='relative flex-[0_0_33%]'>
                                         <Image src={imgSrc} alt={title}
                                             width="0"
@@ -231,7 +232,7 @@ export function LandingPage() {
                     <div className='flex flex-wrap justify-between gap-6 text-center'>
                         {teamMember.map(({ profile, name, github, role }, index) => {
                             return (
-                                <a key={`${name}-${index}`} href={github} target="_blank" rel="noopener noreferrer" className='block px-4 py-4 flex-[0_0_45%] bg-[#D1D1D1] rounded-lg text-black'>
+                                <a href={github} key={uuidv4()} target="_blank" rel="noopener noreferrer" className='block px-4 py-4 flex-[0_0_45%] bg-[#D1D1D1] rounded-lg text-black'>
                                     <div className='relative mb-4'>
                                         <Image src={profile} alt={name}
                                             width="200"
