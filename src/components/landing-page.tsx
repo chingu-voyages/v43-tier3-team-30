@@ -183,9 +183,9 @@ export function LandingPage() {
                                 onSlideChange={() => console.log('slide change')}
                                 onSwiper={(swiper) => console.log(swiper)}
                             >
-                                {events.map(({ brochure_img, eventName, eventDescription, likes }) => {
+                                {events.map(({ brochure_img, eventName, eventDescription, likes }, index) => {
                                     return (
-                                        <SwiperSlide key={eventName}>
+                                        <SwiperSlide key={`${eventName}-${index}`}>
                                             <div className='relative mb-2'>
                                                 <Image src={brochure_img} alt={eventName}
                                                     width="0"
@@ -208,9 +208,9 @@ export function LandingPage() {
                 <section className='bg-[#E5E5E5] px-4 py-8 w-full'>
                     <Typography variant="h6" className='mb-4 font-bold text-black'>Why us?</Typography>
                     <div>
-                        {reasons.map(({ imgSrc, title, content }) => {
+                        {reasons.map(({ imgSrc, title, content }, index) => {
                             return (
-                                <div className='flex gap-6 mb-6'>
+                                <div key={`${title}-${index}`} className='flex gap-6 mb-6'>
                                     <div className='relative flex-[0_0_33%]'>
                                         <Image src={imgSrc} alt={title}
                                             width="0"
@@ -229,9 +229,9 @@ export function LandingPage() {
                 <section className='bg-[#18191B] px-4 py-8 w-full'>
                     <Typography variant="h6" className='mb-4 font-bold text-white'>Our team</Typography>
                     <div className='flex flex-wrap justify-between gap-6 text-center'>
-                        {teamMember.map(({ profile, name, github, role }) => {
+                        {teamMember.map(({ profile, name, github, role }, index) => {
                             return (
-                                <a href={github} target="_blank" rel="noopener noreferrer" className='block px-4 py-4 flex-[0_0_45%] bg-[#D1D1D1] rounded-lg text-black'>
+                                <a key={`${name}-${index}`} href={github} target="_blank" rel="noopener noreferrer" className='block px-4 py-4 flex-[0_0_45%] bg-[#D1D1D1] rounded-lg text-black'>
                                     <div className='relative mb-4'>
                                         <Image src={profile} alt={name}
                                             width="200"

@@ -20,7 +20,7 @@ export default async function handler(
           },
           include: {
             user: true,
-            likes: true
+            likes: true,
           },
           orderBy: {
             createdAt: 'desc',

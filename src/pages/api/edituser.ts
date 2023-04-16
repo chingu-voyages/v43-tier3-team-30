@@ -14,8 +14,6 @@ export default async function handler(
   try {
     const { currentUser } = await serverAuth(req, res)
 
-    console.log(currentUser)
-
     const { name, image } = req.body
 
     if (!name) {

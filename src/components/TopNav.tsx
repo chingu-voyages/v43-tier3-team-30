@@ -37,15 +37,13 @@ const TopNav = (props: Props) => {
 
   const { data: session, status } = useSession()
 
-  console.log('gg', status)
-
   return (
     <>
       <nav className="hidden fixed mx-auto max-w-[1120px] px-3 md:flex items-center justify-center left-0 right-0 top-0 z-[10] py-4 backdrop-blur-2xl shadow-xl transition-all duration-500">
-        <ul className="flex w-full justify-between items-center">
+        <ul className="flex items-center justify-between w-full">
           <Link href="/" className="flex items-center space-x-1">
             <Image alt="" src="/logo2.png" width={36} height={36} />
-            <span className=" font-extrabold text-xl">name</span>
+            <span className="text-xl font-extrabold ">name</span>
           </Link>
           {/* <li>
             <Input className="rounded-2xl" placeholder="Search here" />
