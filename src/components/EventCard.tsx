@@ -1,5 +1,4 @@
 import { FC, useCallback, useEffect, useState } from 'react'
-import axios from 'axios'
 import { useRouter } from 'next/router'
 import 'react-loading-skeleton/dist/skeleton.css'
 
