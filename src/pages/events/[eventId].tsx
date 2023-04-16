@@ -2,9 +2,11 @@ import { useRouter } from 'next/router'
 import React, { useMemo, useState } from 'react'
 import isEqual from 'lodash/isEqual';
 import axios from 'axios';
+import 'react-loading-skeleton/dist/skeleton.css'
 
 import Image from 'next/image'
 import { AiOutlineRollback, AiOutlineEdit, AiTwotoneDelete } from 'react-icons/ai'
+import Skeleton from 'react-loading-skeleton'
 
 import useEvent from '@/hooks/useEvent'
 import useNotes from '@/hooks/useNotes';
@@ -123,6 +125,7 @@ const ViewEvent = () => {
       },
     ]
   }, []);
+  const isLoading = useMemo(() => isPostLoading || isNotesLoading, [isPostLoading, isNotesLoading]);
 
   const handleImgChange = (imgUrl: string) => {
     setNewImg(imgUrl);
@@ -171,7 +174,7 @@ const ViewEvent = () => {
     }
   }
 
-  if (isPostLoading || isNotesLoading) {
+  if (isLoading) {
     return;
   }
 
@@ -197,15 +200,27 @@ const ViewEvent = () => {
             </div>
           </>) : (
           <div className='text-left'>
-            <Image
-              src={fetchedPost?.brochure_img || '/thumbnail-placeholder.svg'}
-              className='rounded-lg'
-              width={1000}
-              height={710}
-              alt={fetchedPost?.title}
-            />
-            <Typography variant="h5" children={fetchedPost?.title} className="my-4" />
-            {notes && <Typography variant="bodytext1" children={notes.map((note: Note) => note.content).join(' ')} />}
+            {isLoading ? (
+              <>
+                <Skeleton count={1} baseColor="#CBD5E1" height={300} width="100%" />
+                <Skeleton count={1} baseColor="#CBD5E1" height={10} width={140} />
+                <Skeleton count={1} baseColor="#CBD5E1" height={5} width="80%" />
+                <Skeleton count={1} baseColor="#CBD5E1" height={3} width="70%" />
+                <Skeleton count={1} baseColor="#CBD5E1" height={3} width="60%" />
+              </>
+            ) : (
+              <>
+                <Image
+                  src={fetchedPost?.brochure_img || '/thumbnail-placeholder.svg'}
+                  className='rounded-lg'
+                  width={1000}
+                  height={710}
+                  alt={fetchedPost?.title}
+                />
+                <Typography variant="h5" children={fetchedPost?.title} className="my-4" />
+                {notes && <Typography variant="bodytext1" children={notes.map((note: Note) => note.content).join(' ')} />}
+              </>
+            )}
           </div>
         )
         }

@@ -141,6 +141,7 @@ export function LandingPage() {
                     </form>
                 </section>
                 <section className='px-5 mb-20 text-center'>
+                    <Typography variant="h1" className='font-light leading-tight'>EventVerse</Typography>
                     <Typography variant="h3" className='font-light leading-tight'>Get Dopamine<br></br> hit from events<br></br> you love</Typography>
                     <Typography variant="h6" className='mt-4 text-center text-gray-400'>Enjoy your fullest, happy to share and save your experience with ease.</Typography>
                     <div className='flex justify-center mt-4'>
