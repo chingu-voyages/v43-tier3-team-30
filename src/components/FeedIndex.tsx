@@ -1,8 +1,10 @@
-import { AiOutlineHeart, AiOutlineSmile } from 'react-icons/ai'
+import { signOut, useSession } from 'next-auth/react'
+
+import { AiOutlineHeart } from 'react-icons/ai'
+import { FaSignOutAlt } from 'react-icons/fa'
 import { MdFlipCameraAndroid } from 'react-icons/md'
 
 import useEvents from '@/hooks/useEvents'
-import { useSession } from 'next-auth/react'
 
 import { Event } from '@/lib/schema'
 
@@ -10,34 +12,34 @@ import BottomNav from '@/components/BottomNav'
 import EventCard from '@/components/EventCard'
 import { EventModal } from './EventModal'
 
-const navList = [
-  {
-    name: 'Favorite',
-    href: '/',
-    tabName: 'Favorite',
-    icon: <AiOutlineHeart size={24} />,
-  },
-  {
-    name: 'Capture',
-    href: '/capture',
-    tabName: 'Capture',
-    icon: <MdFlipCameraAndroid size={24} />,
-  },
-  {
-    name: 'Profile',
-    href: '/profile',
-    tabName: 'Profile',
-    icon: <AiOutlineSmile size={24} />,
-  },
-]
 interface FeedIndexProps {
   userId?: string
 }
 
 const FeedIndex: React.FC<FeedIndexProps> = ({ userId }) => {
-
   const { data: session } = useSession()
   const { data: events } = useEvents(session?.user.id)
+
+  const navList = [
+    {
+      name: 'Favorite',
+      href: '/',
+      tabName: 'Favorite',
+      icon: <AiOutlineHeart size={24} color='#384DFF' />,
+    },
+    {
+      name: 'Capture',
+      href: '/capture',
+      tabName: 'Capture',
+      icon: <MdFlipCameraAndroid size={24} color='#384DFF' />,
+    },
+    {
+      name: 'SignOut',
+      href: '/',
+      tabName: 'SignOut',
+      icon: <FaSignOutAlt onClick={() => signOut()} size={24} color='#384DFF' />,
+    },
+  ]
 
   return (
     <>

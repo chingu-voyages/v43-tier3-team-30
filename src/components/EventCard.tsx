@@ -92,7 +92,7 @@ const EventCard: FC<EventCardProps> = ({
           </div>
           <div className="w-7/12 ml-4 text-left">
             <Typography variant="subhead2" children={eventName} />
-            {notes?.length && notes.map(({ id, content }: Note) => (<Typography key={id} variant="bodytext1" children={content} />))}
+            {Boolean(notes?.length) && notes.map(({ id, content }: Note) => (<Typography key={id} variant="bodytext1" children={content} />))}
           </div >
           <div className="flex items-center space-x-1 h-fit" onClick={onLike}>
             <LikeIcon color={likes ? 'red' : ''} size={20} />

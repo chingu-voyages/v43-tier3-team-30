@@ -43,7 +43,7 @@ const TopNav = (props: Props) => {
         <ul className="flex items-center justify-between w-full">
           <Link href="/" className="flex items-center space-x-1">
             <Image alt="" src="/logo2.png" width={36} height={36} />
-            <span className="text-xl font-extrabold ">name</span>
+            <span className="text-xl font-extrabold ">EventVerse</span>
           </Link>
           {/* <li>
             <Input className="rounded-2xl" placeholder="Search here" />
